@@ -56,13 +56,54 @@ class CustomersTable extends Table
 
         $validator
             ->scalar('name')
-            ->maxLength('name', 255)
-            ->notEmptyString('name');
+            ->notEmptyString('name', "全ての項目は必須です。")
+            ->add('name', 'custom1', [
+                'rule' => function ($value, $context) {
+                    // \Cake\Error\Debugger::log(var_export($value, true));
+                    if(!preg_match('/^[^ -~｡-ﾟ\x00-\x1f\t]+$/u', $value)){ //全角のみか否か。半角が混ざっていればfalse
+                        return false;
+                    }
+                    else if(mb_strlen($value) > 50){ //50文字以内か否か。51文字異常ならばfalse
+                        return false;
+                    }
+                    return true;
+                },
+                'message' => '氏名は、全角50文字以内でご入力下さい。'
+            ])
+            ;
 
         $validator
             ->scalar('tel')
-            ->maxLength('tel', 50)
-            ->notEmptyString('tel');
+            ->notEmptyString('tel', "全ての項目は必須です。")
+            ->add('tel', 'custom2', [
+                'rule' => function ($value, $context) {
+                    \Cake\Error\Debugger::log(var_export($value, true));
+                    if(!preg_match('/^[0-9]+$/u', $value)){ //半角数値のみか否か。半角数値以外が混ざっていればfalse
+                        return false;
+                    }
+                    return true;
+                },
+                'message' => '電話番号は、半角数字のみでご入力ください。'
+            ])
+            ->add('tel', 'custom3', [
+                'rule' => function ($value, $context) {
+                    if(mb_strlen($value) > 50){ //50文字以内か否か。51文字異常ならばfalse
+                        return false;
+                    }
+                    return true;
+                },
+                'message' => '電話番号は、半角50文字以内でご入力ください。'
+            ]);
+
+        $validator
+        ->integer('pref_id')
+        ->add('pref_id', 'custom4', [
+            'rule' => function ($value, $context) {
+                return ($value == 0 ? false:true);
+            },
+            'message' => '全ての項目は必須です。'
+        ])
+        ;
 
         return $validator;
     }

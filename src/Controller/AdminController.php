@@ -8,6 +8,8 @@ use Cake\ORM\TableRegistry;
 use Cake\Datasource\ConnectionManager;
 use Cake\Error\Debugger;
 
+use App\Utils\AppUtility;
+
 /**
  * Admin Controller
  *
@@ -50,6 +52,17 @@ class AdminController extends AppController
     }
 
     /**
+     * 認証スルー設定
+     * @param Event $event
+     * @return \Cake\Http\Response|null|void
+     */
+    public function beforeFilter(Event $event)
+    {
+        parent::beforeFilter($event);
+        $this->Auth->allow(['downCsvCus']);
+    }
+
+    /**
      * ログイン
      * @return \Cake\Http\Response|null
      */
@@ -81,6 +94,11 @@ class AdminController extends AppController
      */
     public function index()
     {
+        // Debugger::log(var_export(AppUtility::convSjis("aaaaああ"), true));
+        $this->paginate = [
+            'limit' => 1
+        ];
+
         $query = TableRegistry::get('Customers')->find()->contain(['Prefs']);
         // $query = $query->join([
         //     'table' => 'prefs',
@@ -126,6 +144,11 @@ class AdminController extends AppController
 
                 return $this->redirect(['action' => 'index']);
             }
+
+            // ob_start();
+            // var_dump($customer->errors());
+            // Debugger::log(ob_get_contents());
+            // ob_end_clean();
             $this->Flash->error(__('The admin could not be saved. Please, try again.'));
         }
         $this->set(compact('customer', 'cPrefs'));
@@ -174,5 +197,55 @@ class AdminController extends AppController
         }
 
         return $this->redirect(['action' => 'index']);
+    }
+
+    public function downCsvCus(){
+        $this->autoRender = false;
+        //$this->request->session()->destroy();
+
+        //ファイルダウンロード目的のアクションの為、手動でログイン中であるかの判断を行う
+        $loginUser = $this->Auth->user();
+        //非ログイン中の為、ログインページへ遷移
+        if(is_null($loginUser)){
+            return $this->redirect(['action' => 'login']);
+        }
+
+        mb_language("Japanese");
+	    $fName = "orders_data.csv";
+        $fPath = TMP.$fName;
+        $fNo = fopen($fPath, 'w');
+
+        $midasiAry = [];
+		$midasiAry[] = AppUtility::convSjis("id");
+        $midasiAry[] = AppUtility::convSjis("氏名");
+        $midasiAry[] = AppUtility::convSjis("電話番号");
+        $midasiAry[] = AppUtility::convSjis("都道府県");
+        fputcsv($fNo, $midasiAry);
+
+        $query = TableRegistry::get('Customers')->find()->contain(['Prefs']);
+        foreach($query as $row){
+            // ob_start();
+            // var_dump($row);
+            // Debugger::log(ob_get_contents());
+            // ob_end_clean();
+
+            $dataWAry = [];
+            $dataWAry[] = AppUtility::convSjis($row->id);
+            $dataWAry[] = AppUtility::convSjis($row->name);
+            $dataWAry[] = AppUtility::convSjis($row->tel);
+            $dataWAry[] = AppUtility::convSjis( (!empty($row->pref) ? $row->pref->name:"") );
+            fputcsv($fNo, $dataWAry);
+        }
+
+        $fName = AppUtility::convSjis($fName);
+
+        header("Cache-Control: public");
+		header("Pragma: public");
+		header("Content-Type: application/octet-stream");
+		header("Content-Disposition: attachment; filename={$fName}");
+		header("Content-type: application/octet-stream-dammy; name={$fName}");
+		header("Content-Transfer-Encoding: binary");
+		header("Content-Length: ".filesize($fPath));
+		readfile($fPath);
     }
 }

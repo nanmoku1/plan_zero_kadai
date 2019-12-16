@@ -40,10 +40,13 @@
     </table>
     <div class="paginator">
         <ul class="pagination">
-            <?= $this->Paginator->prev('<< ' . __('previous')) ?>
-            <?= $this->Paginator->numbers() ?>
-            <?= $this->Paginator->next(__('next') . ' >>') ?>
+            <?= $this->Paginator->first('<< ' . __('first')) ?>
+            <?= $this->Paginator->numbers([
+                "modulus"=>4
+            ]) ?>
+            <?= $this->Paginator->last(__('last') . ' >>') ?>
         </ul>
         <p><?= $this->Paginator->counter(['format' => __('Page {{page}} of {{pages}}, showing {{current}} record(s) out of {{count}} total')]) ?></p>
     </div>
+    <div><?= $this->Html->link("csvダウンロード", ['action' => 'downCsvCus']) ?></div>
 </div>

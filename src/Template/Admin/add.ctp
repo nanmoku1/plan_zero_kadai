@@ -15,8 +15,12 @@
     <fieldset>
         <legend><?= __('Add Customer') ?></legend>
         <?php
-            echo $this->Form->control('name');
-            echo $this->Form->control('tel');
+            echo $this->Form->control('name', [
+                'required' => false,
+            ]);
+            echo $this->Form->control('tel', [
+                'required' => false,
+            ]);
             echo $this->Form->control('pref_id', [
                 'type' => 'select',
                 'required' => false,

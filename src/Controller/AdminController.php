@@ -99,6 +99,12 @@ class AdminController extends AppController
             'limit' => 1
         ];
 
+        $this->helpers = [
+            // ページ送り独自テンプレートの読み込み config/paginator-templates.php
+            // .php は不要！
+            'Paginator' => ['templates' => 'paginator-templates'],
+        ];
+
         $query = TableRegistry::get('Customers')->find()->contain(['Prefs']);
         // $query = $query->join([
         //     'table' => 'prefs',

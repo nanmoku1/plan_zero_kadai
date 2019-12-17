@@ -40,11 +40,9 @@
     </table>
     <div class="paginator">
         <ul class="pagination">
-            <?= $this->Paginator->first('<< ' . __('first')) ?>
-            <?= $this->Paginator->numbers([
-                "modulus"=>4
-            ]) ?>
-            <?= $this->Paginator->last(__('last') . ' >>') ?>
+        <?= $this->Paginator->prev('<< ' . __('prev')); ?>
+    <?= $this->Paginator->numbers(); ?>
+    <?= $this->Paginator->next(__('next') . ' >>'); ?>
         </ul>
         <p><?= $this->Paginator->counter(['format' => __('Page {{page}} of {{pages}}, showing {{current}} record(s) out of {{count}} total')]) ?></p>
     </div>

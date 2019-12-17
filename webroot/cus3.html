@@ -64,77 +64,76 @@
             <section class="content">
 
                 <!-- コンテンツ1 -->
-                <div class="form-group">
-                  <label for="exampleInputEmail1">検索フォーム</label>
-                  <input type="email" class="form-control" id="exampleInputEmail1" placeholder="氏名（部分一致）">
-                  <input type="email" class="form-control" id="exampleInputEmail1" placeholder="電話番号（完全一致）">
-                   <button type="submit" class="btn btn-primary">検索</button>
+                <div class="box">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">検索フォーム</h3>
+                    </div>
+                    <div class="form-group">
+                    <label for="exampleInputEmail1"></label>
+                    <input type="email" class="form-control" id="exampleInputEmail1" placeholder="氏名（部分一致）">
+                    <input type="email" class="form-control" id="exampleInputEmail1" placeholder="電話番号（完全一致）">
+                    <button type="submit" class="btn btn-primary">検索</button>
+                    </div>
+
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary">新規登録</button>
+                    </div>
                 </div>
 
-                <div class="form-group">
-                	<button type="submit" class="btn btn-primary">新規登録</button>
+                <div class="box">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">顧客一覧</h3>
+                        <p>総件数●●●件</p>
+                    </div>
+
+                    <div class="dataTables_paginate paging_simple_numbers" id="example2_paginate">
+                        <ul class="pagination">
+                        <li class="paginate_button previous disabled" id="example2_previous">
+                        <a href="#" aria-controls="example2" data-dt-idx="0" tabindex="0"><<</a>
+                        </li>
+                        <li class="paginate_button active"><a href="#" aria-controls="example2" data-dt-idx="1" tabindex="0">1</a></li><li class="paginate_button "><a href="#" aria-controls="example2" data-dt-idx="2" tabindex="0">2</a></li><li class="paginate_button "><a href="#" aria-controls="example2" data-dt-idx="3" tabindex="0">3</a></li><li class="paginate_button "><a href="#" aria-controls="example2" data-dt-idx="4" tabindex="0">4</a></li><li class="paginate_button "><a href="#" aria-controls="example2" data-dt-idx="5" tabindex="0">5</a></li><li class="paginate_button "><a href="#" aria-controls="example2" data-dt-idx="6" tabindex="0">6</a></li>
+                        <li class="paginate_button next" id="example2_next"><a href="#" aria-controls="example2" data-dt-idx="7" tabindex="0">>></a></li>
+                        </ul>
+                    </div>
+
+                    <table id="example2" class="table table-bordered table-hover dataTable" role="grid">
+                        <thead>
+                            <tr role="row">
+                                <th rowspan="1" colspan="1">id</th>
+                                <th rowspan="1" colspan="1">氏名</th>
+                                <th rowspan="1" colspan="1">電話番号</th>
+                                <th rowspan="1" colspan="1">都道府県</th>
+                                <th rowspan="1" colspan="1"></th>
+                                <th rowspan="1" colspan="1"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr role="row" class="odd">
+                                <td>3</td>
+                                <td>開発　太郎</td>
+                                <td>09011112222</td>
+                                <td>大阪府</td>
+                                <td><a href="#">編集</a></td>
+                                <td><a href="#">削除</a></td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+
+
+                    <a href="#">CSVダウンロード</a>
+                    <div class="dataTables_paginate paging_simple_numbers" id="example2_paginate">
+                        <ul class="pagination">
+                            <li class="paginate_button previous disabled" id="example2_previous">
+                            <a href="#" aria-controls="example2" data-dt-idx="0" tabindex="0"><<</a>
+                            </li>
+                            <li class="paginate_button active"><a href="#" aria-controls="example2" data-dt-idx="1" tabindex="0">1</a></li><li class="paginate_button "><a href="#" aria-controls="example2" data-dt-idx="2" tabindex="0">2</a></li><li class="paginate_button "><a href="#" aria-controls="example2" data-dt-idx="3" tabindex="0">3</a></li><li class="paginate_button "><a href="#" aria-controls="example2" data-dt-idx="4" tabindex="0">4</a></li><li class="paginate_button "><a href="#" aria-controls="example2" data-dt-idx="5" tabindex="0">5</a></li><li class="paginate_button "><a href="#" aria-controls="example2" data-dt-idx="6" tabindex="0">6</a></li>
+                            <li class="paginate_button next" id="example2_next"><a href="#" aria-controls="example2" data-dt-idx="7" tabindex="0">>></a></li>
+                        </ul>
+                    </div>
+
+
                 </div>
-
-				<h3>顧客一覧</h3>
-				<p>総件数●●●件</p>
-
-
-				<div class="dataTables_paginate paging_simple_numbers" id="example2_paginate">
-					<ul class="pagination">
-					<li class="paginate_button previous disabled" id="example2_previous">
-					<a href="#" aria-controls="example2" data-dt-idx="0" tabindex="0"><<</a>
-					</li>
-					<li class="paginate_button active"><a href="#" aria-controls="example2" data-dt-idx="1" tabindex="0">1</a></li><li class="paginate_button "><a href="#" aria-controls="example2" data-dt-idx="2" tabindex="0">2</a></li><li class="paginate_button "><a href="#" aria-controls="example2" data-dt-idx="3" tabindex="0">3</a></li><li class="paginate_button "><a href="#" aria-controls="example2" data-dt-idx="4" tabindex="0">4</a></li><li class="paginate_button "><a href="#" aria-controls="example2" data-dt-idx="5" tabindex="0">5</a></li><li class="paginate_button "><a href="#" aria-controls="example2" data-dt-idx="6" tabindex="0">6</a></li>
-					<li class="paginate_button next" id="example2_next"><a href="#" aria-controls="example2" data-dt-idx="7" tabindex="0">>></a></li>
-					</ul>
-				</div>
-
-
-
-
-
-
-				<table id="example2" class="table table-bordered table-hover dataTable" role="grid">
-                <thead>
-                <tr role="row">
-	                <th rowspan="1" colspan="1">id</th>
-	                <th rowspan="1" colspan="1">氏名</th>
-	                <th rowspan="1" colspan="1">電話番号</th>
-	                <th rowspan="1" colspan="1">都道府県</th>
-	                <th rowspan="1" colspan="1"></th>
-	                <th rowspan="1" colspan="1"></th>
-                </tr>
-                </thead>
-                <tbody>
-
-                <tr role="row" class="odd">
-                  <td>3</td>
-                  <td>開発　太郎</td>
-                  <td>09011112222</td>
-                  <td>大阪府</td>
-                  <td><a href="#">編集</a></td>
-                  <td><a href="#">削除</a></td>
-                </tr>
-
-                </tbody>
-
-              </table>
-
-
-
-				<a href="#">CSVダウンロード</a>
-				<div class="dataTables_paginate paging_simple_numbers" id="example2_paginate">
-					<ul class="pagination">
-					<li class="paginate_button previous disabled" id="example2_previous">
-					<a href="#" aria-controls="example2" data-dt-idx="0" tabindex="0"><<</a>
-					</li>
-					<li class="paginate_button active"><a href="#" aria-controls="example2" data-dt-idx="1" tabindex="0">1</a></li><li class="paginate_button "><a href="#" aria-controls="example2" data-dt-idx="2" tabindex="0">2</a></li><li class="paginate_button "><a href="#" aria-controls="example2" data-dt-idx="3" tabindex="0">3</a></li><li class="paginate_button "><a href="#" aria-controls="example2" data-dt-idx="4" tabindex="0">4</a></li><li class="paginate_button "><a href="#" aria-controls="example2" data-dt-idx="5" tabindex="0">5</a></li><li class="paginate_button "><a href="#" aria-controls="example2" data-dt-idx="6" tabindex="0">6</a></li>
-					<li class="paginate_button next" id="example2_next"><a href="#" aria-controls="example2" data-dt-idx="7" tabindex="0">>></a></li>
-					</ul>
-				</div>
-
-
-
             </section>
 
         </div><!-- end content -->

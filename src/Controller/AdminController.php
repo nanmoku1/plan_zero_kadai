@@ -27,7 +27,6 @@ class AdminController extends AppController
          */
         //$this->loadComponent('Security');
 
-
         $this->loadComponent('Auth', [
             'loginAction' => [
                 'controller' => 'Admin',
@@ -50,6 +49,8 @@ class AdminController extends AppController
             ],
             'authError'=>'セッションが無効です。',
         ]);
+
+        $this->loadModel('Customers');
     }
 
     /**
@@ -112,7 +113,7 @@ class AdminController extends AppController
             'Paginator' => ['templates' => 'paginator-templates'],
         ];
 
-        $query = TableRegistry::get('Customers')->find()->contain(['Prefs']);
+        $query = $this->Customers->find()->contain(['Prefs']);
         if(!empty($sName)) $query->where(["Customers.name LIKE"=>"{$sName}%"]);
         if(!empty($sTel)) $query->where(["Customers.tel"=>$sTel]);
 
@@ -122,8 +123,8 @@ class AdminController extends AppController
         //     'type' => 'INNER',
         //     'conditions' => 'Prefs.id = Customers.pref_id',
         // ])->select(["Customers.id", "Customers.name", "Customers.tel", "Customers.pref_id", "pref_name"=>"Prefs.name"]);
-        $customers = $this->paginate($query);
-        $this->set(compact('customers', 'sName', 'sTel'));
+        $cuses = $this->paginate($query);
+        $this->set(compact('cuses', 'sName', 'sTel'));
         $this->viewBuilder()->setLayout('admin');
     }
 
@@ -136,7 +137,7 @@ class AdminController extends AppController
      */
     public function view($id = null)
     {
-        $customer = TableRegistry::get('Customers')->get($id, [
+        $customer = $this->$this->Customers->get($id, [
             'contain' => ["Prefs"],
         ]);
 
@@ -153,10 +154,10 @@ class AdminController extends AppController
     {
         $cPrefs = TableRegistry::get('Prefs')->SelectChoicePrefs(true, "都道府県を選択してください");
         //Debugger::log(var_export($prefs2, true));
-        $customer = TableRegistry::get('Customers')->newEntity();
+        $customer = $this->Customers->newEntity();
         if ($this->request->is('post')) {
-            $customer = TableRegistry::get('Customers')->patchEntity($customer, $this->request->getData());
-            if (TableRegistry::get('Customers')->save($customer)) {
+            $customer = $this->Customers->patchEntity($customer, $this->request->getData());
+            if ($this->Customers->save($customer)) {
                 return $this->redirect(['action' => 'index']);
             }
 
@@ -179,12 +180,12 @@ class AdminController extends AppController
     public function edit($id = null)
     {
         $cPrefs = TableRegistry::get('Prefs')->SelectChoicePrefs(true, "都道府県を選択してください");
-        $customer = TableRegistry::get('Customers')->get($id, [
+        $customer = $this->Customers->get($id, [
             'contain' => ["Prefs"],
         ]);
         if ($this->request->is(['patch', 'post', 'put'])) {
-            $customer = TableRegistry::get('Customers')->patchEntity($customer, $this->request->getData());
-            if (TableRegistry::get('Customers')->save($customer)) {
+            $customer = $this->Customers->patchEntity($customer, $this->request->getData());
+            if ($this->Customers->save($customer)) {
                 return $this->redirect(['action' => 'index']);
             }
         }
@@ -202,8 +203,8 @@ class AdminController extends AppController
     public function delete($id = null)
     {
         $this->request->allowMethod(['post', 'delete']);
-        $customer = TableRegistry::get('Customers')->get($id);
-        if (TableRegistry::get('Customers')->delete($customer)) {
+        $customer = $this->Customers->get($id);
+        if ($this->Customers->delete($customer)) {
             $this->Flash->success(__('The admin has been deleted.'));
         } else {
             $this->Flash->error(__('The admin could not be deleted. Please, try again.'));
@@ -235,7 +236,7 @@ class AdminController extends AppController
         $midasiAry[] = AppUtility::convSjis("都道府県");
         fputcsv($fNo, $midasiAry);
 
-        $query = TableRegistry::get('Customers')->find()->contain(['Prefs']);
+        $query = $this->Customers->find()->contain(['Prefs']);
         foreach($query as $row){
             // ob_start();
             // var_dump($row);

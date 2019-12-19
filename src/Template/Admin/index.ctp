@@ -59,7 +59,7 @@
                 </tr>
             </thead>
             <tbody>
-                <?php foreach ($customers as $customer){ ?>
+                <?php foreach ($cuses as $customer){ ?>
                 <tr role="row" class="odd">
                     <td><?= $this->Number->format($customer->id) ?></td>
                     <td><?= h($customer->name) ?></td>

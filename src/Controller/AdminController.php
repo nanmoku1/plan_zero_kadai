@@ -5,12 +5,9 @@ use App\Controller\AppController;
 use Cake\Event\Event;
 use Cake\ORM\TableRegistry;
 
-use Cake\Datasource\ConnectionManager;
 use Cake\Error\Debugger;
 
 use App\Utils\AppUtility;
-
-use Cake\Auth\DefaultPasswordHasher;
 
 /**
  * Admin Controller
@@ -43,6 +40,7 @@ class AdminController extends AppController
             'logoutRedirect' => [
                 'controller' => 'Admin',
                 'action' => 'login',
+                '?' => ['logout'=>1],
             ],
             'authenticate' => [
                 'Form' => [
@@ -50,6 +48,7 @@ class AdminController extends AppController
                     'fields' => ['username' => 'username', 'password' => 'password']
                 ]
             ],
+            'authError'=>'セッションが無効です。',
         ]);
     }
 
@@ -70,14 +69,15 @@ class AdminController extends AppController
      */
     public function login()
     {
-        Debugger::log((new DefaultPasswordHasher)->hash("Svquj2Cx"));
         if ($this->request->is('post')) {
             $user = $this->Auth->identify();
             if ($user) {
                 $this->Auth->setUser($user);
                 return $this->redirect($this->Auth->redirectUrl());
             }
-            $this->Flash->error(__('ユーザ名もしくはパスワードが間違っています'));
+            $this->Flash->error('ログインID、または、パスワードが異なります。');
+        }else if(!empty($this->request->getQuery("logout"))){
+            $this->Flash->error('ログアウトしました。');
         }
 
         $this->viewBuilder()->setLayout('login');
@@ -109,7 +109,6 @@ class AdminController extends AppController
 
         $this->helpers = [
             // ページ送り独自テンプレートの読み込み config/paginator-templates.php
-            // .php は不要！
             'Paginator' => ['templates' => 'paginator-templates'],
         ];
 
@@ -152,7 +151,7 @@ class AdminController extends AppController
      */
     public function add()
     {
-        $cPrefs = TableRegistry::get('Prefs')->SelectChoicePrefs(true);
+        $cPrefs = TableRegistry::get('Prefs')->SelectChoicePrefs(true, "都道府県を選択してください");
         //Debugger::log(var_export($prefs2, true));
         $customer = TableRegistry::get('Customers')->newEntity();
         if ($this->request->is('post')) {
@@ -179,7 +178,7 @@ class AdminController extends AppController
      */
     public function edit($id = null)
     {
-        $cPrefs = TableRegistry::get('Prefs')->SelectChoicePrefs(true);
+        $cPrefs = TableRegistry::get('Prefs')->SelectChoicePrefs(true, "都道府県を選択してください");
         $customer = TableRegistry::get('Customers')->get($id, [
             'contain' => ["Prefs"],
         ]);

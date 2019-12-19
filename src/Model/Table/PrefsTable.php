@@ -60,10 +60,10 @@ class PrefsTable extends Table
         return $validator;
     }
 
-    public function SelectChoicePrefs(bool $isEmpty = false)
+    public function SelectChoicePrefs(bool $isEmpty = false, string $emptyStr = "")
     {
         $prefs = $this->find()->select(["value"=>"id", "text"=>"name"])->enableHydration(false)->toArray();
-        if($isEmpty) array_unshift($prefs, ["text"=>"", "value"=>0]);
+        if($isEmpty) array_unshift($prefs, ["text"=>(!empty($emptyStr) ? $emptyStr:""), "value"=>0]);
         return $prefs;
     }
 }

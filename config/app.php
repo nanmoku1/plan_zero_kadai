@@ -396,5 +396,6 @@ return [
      */
     'Session' => [
         'defaults' => 'php',
+        'timeout' => 60 * 24 //increase time in seconds
     ],
 ];

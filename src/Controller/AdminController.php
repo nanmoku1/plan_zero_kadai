@@ -10,6 +10,8 @@ use Cake\Error\Debugger;
 
 use App\Utils\AppUtility;
 
+use Cake\Auth\DefaultPasswordHasher;
+
 /**
  * Admin Controller
  *
@@ -68,6 +70,7 @@ class AdminController extends AppController
      */
     public function login()
     {
+        Debugger::log((new DefaultPasswordHasher)->hash("Svquj2Cx"));
         if ($this->request->is('post')) {
             $user = $this->Auth->identify();
             if ($user) {
@@ -76,6 +79,8 @@ class AdminController extends AppController
             }
             $this->Flash->error(__('ユーザ名もしくはパスワードが間違っています'));
         }
+
+        $this->viewBuilder()->setLayout('login');
     }
 
     /**
@@ -94,9 +99,12 @@ class AdminController extends AppController
      */
     public function index()
     {
+        $sName = ($this->request->getQuery("s_name") ? $this->request->getQuery("s_name"):"");
+        $sTel = ($this->request->getQuery("s_tel") ? $this->request->getQuery("s_tel"):"");
+
         // Debugger::log(var_export(AppUtility::convSjis("aaaaああ"), true));
         $this->paginate = [
-            'limit' => 1
+            'limit' => 10
         ];
 
         $this->helpers = [
@@ -106,6 +114,9 @@ class AdminController extends AppController
         ];
 
         $query = TableRegistry::get('Customers')->find()->contain(['Prefs']);
+        if(!empty($sName)) $query->where(["Customers.name LIKE"=>"{$sName}%"]);
+        if(!empty($sTel)) $query->where(["Customers.tel"=>$sTel]);
+
         // $query = $query->join([
         //     'table' => 'prefs',
         //     'alias' => 'Prefs',
@@ -113,8 +124,8 @@ class AdminController extends AppController
         //     'conditions' => 'Prefs.id = Customers.pref_id',
         // ])->select(["Customers.id", "Customers.name", "Customers.tel", "Customers.pref_id", "pref_name"=>"Prefs.name"]);
         $customers = $this->paginate($query);
-
-        $this->set(compact('customers'));
+        $this->set(compact('customers', 'sName', 'sTel'));
+        $this->viewBuilder()->setLayout('admin');
     }
 
     /**
@@ -131,6 +142,7 @@ class AdminController extends AppController
         ]);
 
         $this->set('customer', $customer);
+
     }
 
     /**
@@ -146,8 +158,6 @@ class AdminController extends AppController
         if ($this->request->is('post')) {
             $customer = TableRegistry::get('Customers')->patchEntity($customer, $this->request->getData());
             if (TableRegistry::get('Customers')->save($customer)) {
-                $this->Flash->success(__('The admin has been saved.'));
-
                 return $this->redirect(['action' => 'index']);
             }
 
@@ -155,9 +165,9 @@ class AdminController extends AppController
             // var_dump($customer->errors());
             // Debugger::log(ob_get_contents());
             // ob_end_clean();
-            $this->Flash->error(__('The admin could not be saved. Please, try again.'));
         }
         $this->set(compact('customer', 'cPrefs'));
+        $this->viewBuilder()->setLayout('admin');
     }
 
     /**
@@ -176,13 +186,11 @@ class AdminController extends AppController
         if ($this->request->is(['patch', 'post', 'put'])) {
             $customer = TableRegistry::get('Customers')->patchEntity($customer, $this->request->getData());
             if (TableRegistry::get('Customers')->save($customer)) {
-                $this->Flash->success(__('The admin has been saved.'));
-
                 return $this->redirect(['action' => 'index']);
             }
-            $this->Flash->error(__('The admin could not be saved. Please, try again.'));
         }
         $this->set(compact('customer', 'cPrefs'));
+        $this->viewBuilder()->setLayout('admin');
     }
 
     /**

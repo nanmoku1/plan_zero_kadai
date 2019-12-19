@@ -74,6 +74,7 @@ Router::scope('/', function (RouteBuilder $routes) {
     $routes->connect('/', ['controller' => 'Admin', 'action' => 'index']);
     $routes->connect('/add', ['controller' => 'Admin', 'action' => 'add']);
     $routes->connect('/edit/*', ['controller' => 'Admin', 'action' => 'edit']);
+    $routes->connect('/logout', ['controller' => 'Admin', 'action' => 'logout']);
 
     /**
      * Connect catchall routes for all controllers.

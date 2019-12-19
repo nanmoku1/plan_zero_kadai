@@ -4,34 +4,73 @@
  * @var \App\Model\Entity\Customer $customer
  */
 ?>
-<nav class="large-3 medium-4 columns" id="actions-sidebar">
-    <ul class="side-nav">
-        <li class="heading"><?= __('Actions') ?></li>
-        <li><?= $this->Form->postLink(
-                __('Delete'),
-                ['action' => 'delete', $customer->id],
-                ['confirm' => __('Are you sure you want to delete # {0}?', $customer->id)]
-            )
-        ?></li>
-        <li><?= $this->Html->link(__('List Customers'), ['action' => 'index']) ?></li>
-    </ul>
-</nav>
-<div class="users form large-9 medium-8 columns content">
-    <?= $this->Form->create($customer) ?>
-    <fieldset>
-        <legend><?= __('Edit Customer') ?></legend>
-        <?php
-            echo $this->Form->control('name');
-            echo $this->Form->control('tel');
-            echo $this->Form->control('pref_id', [
+<!-- コンテンツヘッダ -->
+<section class="content-header">
+    <h1>顧客管理_更新</h1>
+</section>
+
+<!-- メインコンテンツ -->
+<section class="content">
+    <div class="box">
+        <!-- コンテンツ1 -->
+        <?php if($customer->hasErrors()){ ?>
+        <div class="alert alert-danger alert-dismissible">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+            <?php
+            $errors = $customer->errors();
+            foreach($errors as $err1){
+                foreach($err1 as $err2){
+            ?>
+            <p><?= "※{$err2}" ?></p>
+            <?php
+                }
+            }
+            ?>
+        </div>
+        <?php } ?>
+
+        <?= $this->Form->create($customer) ?>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">id</label>
+            <span><?= $customer->id ?></span>
+        </div>
+        <div class="form-group">
+            <label for="name" class="col-sm-2 control-label">必須</label>
+
+            <div class="col-sm-10">
+                <?= $this->Form->control('name', ["type"=>"text", "class"=>"form-control", "label"=>false, 'required' => false, 'error'=>false, "placeholder"=>"氏名"]) ?>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="tel" class="col-sm-2 control-label">必須</label>
+
+            <div class="col-sm-10">
+                <?= $this->Form->control('tel', ["type"=>"text", "class"=>"form-control", "label"=>false, 'required' => false, 'error'=>false, "placeholder"=>"電話番号（半角数字・ハイフン無し）"]) ?>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="pref_id" class="col-sm-2 control-label">必須</label>
+            <div class="col-sm-10">
+                <?= $this->Form->control('pref_id', [
                 'type' => 'select',
+                'label'=>false,
+                'class'=>'form-control',
                 'required' => false,
+                'error'=>false,
                 'options' => $cPrefs,
                 'multiple' => false,
                 'empty' => ''
-            ]);
-        ?>
-    </fieldset>
-    <?= $this->Form->button(__('Submit')) ?>
-    <?= $this->Form->end() ?>
-</div>
+            ]) ?>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <?= $this->Form->button("更新する", ["class"=>"btn btn-primary"]) ?>
+            <?= $this->Html->link("戻る", ['action' => 'index'], ["class"=>"btn btn-primary pull-right"]) ?>
+        </div>
+
+        <?= $this->Form->end() ?>
+    </div>
+</section>

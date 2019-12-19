@@ -205,9 +205,9 @@ class AdminController extends AppController
         $this->request->allowMethod(['post', 'delete']);
         $customer = $this->Customers->get($id);
         if ($this->Customers->delete($customer)) {
-            $this->Flash->success(__('The admin has been deleted.'));
+            //$this->Flash->success(__('The admin has been deleted.'));
         } else {
-            $this->Flash->error(__('The admin could not be deleted. Please, try again.'));
+            //$this->Flash->error(__('The admin could not be deleted. Please, try again.'));
         }
 
         return $this->redirect(['action' => 'index']);
@@ -221,6 +221,7 @@ class AdminController extends AppController
         $loginUser = $this->Auth->user();
         //非ログイン中の為、ログインページへ遷移
         if(is_null($loginUser)){
+            $this->Flash->error("セッションが無効です。");
             return $this->redirect(['action' => 'login']);
         }
 

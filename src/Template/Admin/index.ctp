@@ -3,6 +3,7 @@
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\User[]|\Cake\Collection\CollectionInterface $users
  */
+$this->assign('title', '顧客一覧');
 ?>
 <!-- コンテンツヘッダ -->
 <section class="content-header">

@@ -1,3 +1,4 @@
+<?php $this->assign('title', 'ログイン') ?>
 <div class="login-box">
     <div class="login-logo">
         <b>Admin</b>LTE
@@ -6,15 +7,17 @@
     <div class="login-box-body">
         <p class="login-box-msg">Sign in to start your session</p>
 
-        <?php
-        $fr = $this->Flash->render();
-        if( !empty($fr) ){
-        ?>
-        <div class="alert alert-danger alert-dismissible">
-        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-        <?= $fr ?>
+        <div style="height:80px;">
+            <?php
+            $fr = $this->Flash->render();
+            if( !empty($fr) ){
+            ?>
+            <div class="alert alert-danger alert-dismissible">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+            <?= $fr ?>
+            </div>
+            <?php } ?>
         </div>
-        <?php } ?>
 
         <?= $this->Form->create("AdminUsers") ?>
             <div class="form-group has-feedback">

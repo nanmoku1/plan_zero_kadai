@@ -3,6 +3,7 @@
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Customer $customer
  */
+$this->assign('title', '顧客管理更新');
 ?>
 <!-- コンテンツヘッダ -->
 <section class="content-header">
@@ -13,26 +14,32 @@
 <section class="content">
     <div class="box">
         <!-- コンテンツ1 -->
-        <?php if($customer->hasErrors()){ ?>
-        <div class="alert alert-danger alert-dismissible">
-            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-            <?php
-            $errors = $customer->errors();
-            foreach($errors as $err1){
-                foreach($err1 as $err2){
-            ?>
-            <p><?= "※{$err2}" ?></p>
-            <?php
+        <div style="height:120px;">
+            <?php if($customer->hasErrors()){ ?>
+            <div class="alert alert-danger alert-dismissible">
+
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                <?php
+                $errors = $customer->getErrors();
+                foreach($errors as $err1){
+                    foreach($err1 as $err2){
+                ?>
+                <p><?= "※{$err2}" ?></p>
+                <?php
+                    }
                 }
-            }
-            ?>
+                ?>
+            </div>
+            <?php } ?>
         </div>
-        <?php } ?>
 
         <?= $this->Form->create($customer) ?>
         <div class="form-group">
             <label class="col-sm-2 control-label">id</label>
-            <span><?= $customer->id ?></span>
+
+            <div class="col-sm-10">
+                <label class="control-label"><?= $customer->id ?></label>
+            </div>
         </div>
         <div class="form-group">
             <label for="name" class="col-sm-2 control-label">必須</label>

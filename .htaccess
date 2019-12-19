@@ -1,3 +1,9 @@
+#AuthUserfile /home/plan0/plan-zero.co.jp/public_html/score/pz_user_11/.htpasswd
+#AuthGroupfile /dev/null
+#AuthName "ID and Password!"
+#AuthType Basic
+#require valid-user
+
 # Uncomment the following to prevent the httpoxy vulnerability
 # See: https://httpoxy.org/
 #<IfModule mod_headers.c>
